@@ -4,7 +4,8 @@ Here a small mine sweeper in react native.
 
 ## Installation
 
-You can build the .apk using `expo build:platform`
+Run `npm install`
+Build the .apk with `expo build:platform`
 
 ## Functionalities
 
