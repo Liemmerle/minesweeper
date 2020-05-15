@@ -1,5 +1,11 @@
 
 
+/**
+ * class used to store one game.
+ * @param {*} width : grid width
+ * @param {*} height : grid height
+ * @param {*} mineNumber : number of mine
+ */
 export function Game(width, height, mineNumber) {
 	this.width = width;
 	this.height = height;
@@ -12,9 +18,13 @@ export function Game(width, height, mineNumber) {
 
 	this.mineNumber = mineNumber;
 	
-	//génère la map
+	/**
+	 * function used to generate the map
+	 * @param x0 : x coordinate of the first action made by the player
+	 * @param y0 : y coordinate of the first action made by the player
+	 */
 	this.generate = function(x0, y0) {
-		//placement des mines
+		//mine positionning
 		for(let i = 0 ; i < mineNumber ; i ++) {
 			let x = Math.floor(Math.random() * width);
 			let y = Math.floor(Math.random() * height);
@@ -25,7 +35,7 @@ export function Game(width, height, mineNumber) {
 			this.grid[x][y] = -1;
 		}
 
-		//calculs nombre mines voisines
+		//store the number of adjacent mines for each cell in the grid
 		for(let x = 0 ; x < width ; x ++)
 			for(let y = 0 ; y < height ; y ++) 
 				if(this.grid[x][y] == 0){
@@ -40,7 +50,12 @@ export function Game(width, height, mineNumber) {
 				}
 		this.generated = true;
 	}
-	//révèle une case de la grille
+	/**
+	 * reveal if a cell contain a mine.
+	 * @param x : x coordinate of the cell revealed
+	 * @param y : y coordinate of the cell revealed
+	 * @return : -1 if the revealed cell contain a mine, 1 if the game is won and 0 if the game continue
+	 */
 	this.reveal = function(x, y) {
 		let list = [[x, y]];
 
@@ -51,7 +66,7 @@ export function Game(width, height, mineNumber) {
 			let [x, y] = list.pop();
 			this.revealed[x][y] = 1;
 			this.flags[x][y] = 0;
-			//si pas de mine adjacente, révèle également les 8 cases adjacentes
+			//if there is none adjacent mine, also reveal the 8 adjacents cells
 			if(this.grid[x][y] == 0) {
 				if(x != 0) {
 					if(y != 0 && this.revealed[x-1][y-1] == 0)
@@ -74,21 +89,25 @@ export function Game(width, height, mineNumber) {
 				if(y != this.height-1 && this.revealed[x][y+1] == 0)
 					list.push([x, y+1]);
 			} else if(this.grid[x][y] == -1) {
-				return -1; // défaite
+				return -1; // defeat
 			}
 			if(this.revealed.reduce((a, b) => a.concat(b), []).reduce((a, b) => a + b, 0) == this.width * this.height - mineNumber)
-				return 1; // victoire
+				return 1; // victory
 		}
 		return 0;
 
 	}
 
-	//marque une mine
+	/**
+	 * add a flag to a cell
+	 * @param x : x coordinate of the marked cell
+	 * @param y : y coordinate of the marked cell
+	 */
 	this.changeFlag = function(x, y) {
 		this.flags[x][y] = 1 - this.flags[x][y];
 	}
 
-	//initialisation des grilles
+	//init
 	for(let x = 0 ; x < width ; x ++) {
 		this.grid[x] = [];
 		this.revealed[x] = [];

@@ -4,8 +4,11 @@ import { View, Image, TouchableHighlight } from 'react-native';
 import { styles, images, colors } from './Styles';
 
 
-//composant affichant toute la grille
-export function GameGrid({game, playing, nextTurn, mode}) {
+/**
+ * Component showing the current game state
+ * @param {game, playing, nextTurn} params : game is the current minesweeper game, playing a boolean which allow the player to press the cells or not, nextTurn the function triggered by each cell 
+ */
+export function GameGrid({game, playing, nextTurn}) {
 
 	let grid = [];
 
@@ -21,7 +24,11 @@ export function GameGrid({game, playing, nextTurn, mode}) {
 	)
 }
 
-//composant pour une case de la grille
+/**
+ * Component used to show one cell of the grid
+ * 
+ * @param {x, y, game, nextTurn, playing} params : (x, y) coordinates of the showed cell, game the current game, nextTurn the function triggered if the player press this cell and playing a boolean which allow or not the press
+ */
 function GameCell({x, y, game, nextTurn, playing}) {
 
 	function play() {

@@ -1,9 +1,9 @@
 
 import { StyleSheet } from 'react-native';
 
-
-
-
+/**
+ * list of all the colors used in the styles
+ */
 export const colors = {
 	white: '#fff',
 	lightBlue: '#cbdbfc',
@@ -14,6 +14,9 @@ export const colors = {
 	purple: "#45283c",
 }
 
+/**
+ * images used in the app
+ */
 export const images = {
 	background: require("./assets/background.png"),
 	mine: require("./assets/mine.png"),
@@ -34,6 +37,9 @@ export const images = {
 	retry: require("./assets/retry.png"),
 }
 
+/**
+ * all styles used by the React components
+ */
 export const styles = StyleSheet.create({
 	gameGrid: {
 		width: "97.5%",

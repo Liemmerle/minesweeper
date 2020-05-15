@@ -4,7 +4,9 @@ import { styles, images, colors } from './Styles';
 import { GameGrid } from './GameComponents';
 import { Game } from './Game';
 
-//container du jeu
+/**
+ * main component of the minesweeper
+ */
 export default function App() {
 	var [gameCode, setGameCode] = useState(0);
 	var [game, setGame] = useState(new Game(10, 10, 10));
@@ -33,31 +35,34 @@ export default function App() {
 
 	return gameCode == -1 ? (
 		<ImageBackground source={images.background} style={styles.container}>
-				<GameGrid game={game} playing={false} nextTurn={nextTurn} mode={mode} />
+				<GameGrid game={game} playing={false} nextTurn={nextTurn} />
 				<Footer game={game} mode={mode} setMode={setMode} />
 				<PopUp img={images.defeat} nextGame={next} />
 		</ImageBackground>
 	) : gameCode == 1 ? (
 		<ImageBackground source={images.background} style={styles.container}>
-				<GameGrid game={game} playing={false} nextTurn={nextTurn} mode={mode} />
+				<GameGrid game={game} playing={false} nextTurn={nextTurn} />
 				<Footer game={game} mode={mode} setMode={setMode} />
 				<PopUp img={images.victory} nextGame={next} />
 		</ImageBackground>
 	) : (
 		<ImageBackground source={images.background} style={styles.container}>
-					<GameGrid game={game} playing={true} nextTurn={nextTurn} mode={mode} />
+					<GameGrid game={game} playing={true} nextTurn={nextTurn} />
 					<Footer game={game} mode={mode} setMode={setMode} />
 		</ImageBackground>
 	);
 }
 
-//pop up de victoire/défaite
+/**
+ * animated popup in case of victory or defeat
+ * @param {img, nextGame} params : img is the image source to show in the top-part of the popup, nextGame a function used to play a new game 
+ */
 function PopUp({img, nextGame}) {
 	const yPos = useRef(new Animated.Value(100)).current;
 	const height = useRef(new Animated.Value(100)).current;
 
 
-	//animation pop up
+	//animation
 	useEffect(() => {
 		Animated.sequence([
 			Animated.timing(
@@ -89,8 +94,6 @@ function PopUp({img, nextGame}) {
 		]).start()
 	}, []);
 
-
-	//TODO : changer taille texte (alt. utiliser image)
 	return (
 		<Animated.View style={{...styles.container,
 			top: yPos.interpolate({
@@ -111,7 +114,10 @@ function PopUp({img, nextGame}) {
 	)
 }
 
-
+/**
+ * Component at the bottom of the game grid, contains the button which allow to put a flag on cells and the number of remaining mines
+ * @param {game, mode, setMode} params : game is the current game, mode is set to 0 if the player want to reveal a cell and to 1 if the player want to put a flag on it, setMode is a function used to change the mode 
+ */
 function Footer({game, mode, setMode}) {
 
 	let score = "" + (game.mineNumber - game.flags.reduce((a, b) => a.concat(b), []).reduce((a, b) => a + b, 0));
