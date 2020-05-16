@@ -1,6 +1,6 @@
-# Mine sweeper
+# Minesweeper
 
-Here a small mine sweeper in react native.
+Here a small Minesweeper in react native.
 
 ## Installation
 
